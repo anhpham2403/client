@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.anh.movie.screen.search.SearchViewModel"
+            />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:closeIcon="@drawable/ic_clear_white_24dp"
+                android:iconifiedByDefault="false"
+                android:queryHint="@string/search"
+                android:searchIcon="@drawable/ic_search_white_24dp"
+                android:theme="@android:style/Theme.Holo"
+                />
+        </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+    </LinearLayout>
+</layout>
