@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import com.anh.movie.screen.home.ViewPagerAdapter;
 import com.anh.movie.utils.Constant;
 import com.anh.movie.utils.LayoutManagers;
@@ -37,7 +38,7 @@ public final class BindingUtils {
 
     @BindingAdapter({ "bind:recyclerAdapter" })
     public static void setAdapterForRecyclerView(RecyclerView recyclerView,
-        RecyclerView.Adapter adapter) {
+            RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
     }
 
@@ -49,19 +50,19 @@ public final class BindingUtils {
 
     @BindingAdapter("layoutManager")
     public static void setLayoutManager(RecyclerView recyclerView,
-        LayoutManagers.LayoutManagerFactory layoutManagerFactory) {
+            LayoutManagers.LayoutManagerFactory layoutManagerFactory) {
         recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView));
     }
 
     @BindingAdapter({ "scrollListenner" })
     public static void setScrollListenner(RecyclerView recyclerView,
-        RecyclerView.OnScrollListener listener) {
+            RecyclerView.OnScrollListener listener) {
         recyclerView.addOnScrollListener(listener);
     }
 
     @BindingAdapter({ "bind:manager", "bind:fragment" })
     public static void setFragmentManager(FrameLayout layout, FragmentManager manager,
-        Fragment fragment) {
+            Fragment fragment) {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(layout.getId(), fragment).commit();
     }
@@ -101,5 +102,11 @@ public final class BindingUtils {
     @BindingAdapter({ "bind:setJavaScript" })
     public static void setJavaScriptEnabled(WebView view, boolean b) {
         view.getSettings().setJavaScriptEnabled(b);
+    }
+
+    @BindingAdapter({ "bind:setQueryTextListener" })
+    public static void setSearchListener(SearchView view, SearchView.OnQueryTextListener listener) {
+        view.setOnQueryTextListener(listener);
+        view.clearFocus();
     }
 }

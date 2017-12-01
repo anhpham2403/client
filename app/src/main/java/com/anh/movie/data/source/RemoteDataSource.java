@@ -1,6 +1,5 @@
 package com.anh.movie.data.source;
 
-import android.util.Log;
 import com.anh.movie.data.model.Movie;
 import com.anh.movie.data.model.MovieResponse;
 import io.reactivex.Observable;
@@ -66,5 +65,16 @@ public class RemoteDataSource {
                 return movieResponse.getMovies();
             }
         });
+    }
+
+    public Observable<List<Movie>> getMoviesBySearch(int page, String search) {
+        return mMovieApi.getMoviesBySearch(page, search)
+                .map(new Function<MovieResponse, List<Movie>>() {
+
+                    @Override
+                    public List<Movie> apply(MovieResponse movieResponse) throws Exception {
+                        return movieResponse.getMovies();
+                    }
+                });
     }
 }

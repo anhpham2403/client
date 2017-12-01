@@ -24,4 +24,8 @@ public interface MovieApi {
 
     @GET("movie/by_genre_id")
     Observable<MovieResponse> getMoviesByIdGenre(@Query("page") int page, @Query("id") int id);
+
+    @GET("movie/search")
+    Observable<MovieResponse> getMoviesBySearch(@Query("page") int page,
+            @Query("name") String id);
 }
