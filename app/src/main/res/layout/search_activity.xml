@@ -28,6 +28,13 @@
                 android:layout_height="@dimen/dp_48"
                 android:background="@color/color_primary"
                 >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:padding="@dimen/dp_8"
+                    android:onClick="@{()->viewModel.back()}"
+                    />
                 <SearchView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -44,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="@{LayoutManagers.grid(2)}"
-            recyclerAdapter="@{viewModel.adapter}"
             app:recyclerAdapter="@{viewModel.adapter}"
             app:scrollListenner="@{viewModel.scrollListener}"
             />

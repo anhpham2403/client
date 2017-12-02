@@ -17,9 +17,23 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.title_login));
         mViewModel = new LoginViewModel(this);
         LoginActivityBinding binding =
-            DataBindingUtil.setContentView(this, R.layout.login_activity);
+                DataBindingUtil.setContentView(this, R.layout.login_activity);
         binding.setViewModel(mViewModel);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mViewModel.onStart();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

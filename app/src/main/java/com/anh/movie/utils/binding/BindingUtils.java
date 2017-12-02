@@ -2,20 +2,30 @@ package com.anh.movie.utils.binding;
 
 import android.databinding.BindingAdapter;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.SearchView;
+import com.anh.movie.R;
 import com.anh.movie.screen.home.ViewPagerAdapter;
+import com.anh.movie.screen.moviedetail.DetailViewPager;
 import com.anh.movie.utils.Constant;
 import com.anh.movie.utils.LayoutManagers;
+import com.cunoraz.tagview.Tag;
+import com.cunoraz.tagview.TagView;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 
 /**
  * Created by anh on 11/25/2017.
@@ -45,7 +55,11 @@ public final class BindingUtils {
     @BindingAdapter({ "bind:imageUrl" })
     public static void loadImage(ImageView view, String imagePath) {
         String imageUrl = Constant.BASE_URL_IMAGE + imagePath;
-        Picasso.with(view.getContext()).load(imageUrl).into(view);
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.no_image)
+                .error(R.drawable.no_image)
+                .into(view);
     }
 
     @BindingAdapter("layoutManager")
@@ -108,5 +122,62 @@ public final class BindingUtils {
     public static void setSearchListener(SearchView view, SearchView.OnQueryTextListener listener) {
         view.setOnQueryTextListener(listener);
         view.clearFocus();
+    }
+
+    @BindingAdapter("errorText")
+    public static void setErrorText(final TextInputLayout layout, String text) {
+        layout.setError(text);
+        EditText editText = layout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //No-Op
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                layout.setError("");
+            }
+        });
+    }
+
+    @BindingAdapter({ "bind:setUpTabLayout" })
+    public static void setUpTabLayout(TabLayout tabLayout, ViewPager viewPager) {
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @BindingAdapter({ "bind:setTags" })
+    public static void setTagName(TagView view, ArrayList<Tag> strings) {
+        view.addTags(strings);
+    }
+
+    @BindingAdapter({ "bind:adapter" })
+    public static void setAdapterForViewPager(ViewPager viewPager, DetailViewPager adapter) {
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
+    }
+
+    @BindingAdapter({ "bind:rateListener" })
+    public static void setRateListenner(RatingBar rate,
+            RatingBar.OnRatingBarChangeListener listener) {
+        rate.setOnRatingBarChangeListener(listener);
+    }
+
+    @BindingAdapter({ "bind:imageUrl1" })
+    public static void loadImage1(ImageView view, String imagePath) {
+        String imageUrl = Constant.BASE_URL_IMAGE1 + imagePath;
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.no_image)
+                .error(R.drawable.no_image)
+                .into(view);
     }
 }

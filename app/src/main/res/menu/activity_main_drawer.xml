@@ -6,7 +6,18 @@
             android:id="@+id/login"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Login">
-
+        </item>
+        <item
+            android:id="@+id/update"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Update"
+            android:visible="false">
+        </item>
+        <item
+            android:id="@+id/log_out"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Logout"
+            android:visible="false">
         </item>
     </group>
 </menu>

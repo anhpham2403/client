@@ -20,7 +20,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new SearchViewModel(getApplicationContext());
+        mViewModel = new SearchViewModel(this);
         SearchActivityBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.search_activity);
         binding.setViewModel(mViewModel);

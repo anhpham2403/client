@@ -7,4 +7,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_username">username</string>
+    <string name="title_password">password</string>
+    <string name="title_login">Login</string>
+    <string name="title_sign_up_now">Not a member ? sign up now.</string>
+    <string name="msg_error_user_name">Text Must not Empty!</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="title_name">Name</string>
+    <string name="title_email">Email</string>
+    <string name="title_register">Register</string>
+    <string name="title_update">Update</string>
+    <string name="original_title">Original title :</string>
+    <string name="release_date">Release date:</string>
+    <string name="status">Status :</string>
+    <string name="rate">Rate</string>
+    <string name="genres">Genres :</string>
+    <string name="overview">Overview:</string>
+    <string name="biography">Biography :</string>
+    <string name="also_know_as">Also know as :</string>
+    <string name="birthday">Birthday:</string>
+    <string name="old_passowrd">Old password</string>
+    <string name="choose_image">Choose Image :</string>
+    <string name="comment_here">comment here...</string>
+    <string name="send">send</string>
 </resources>

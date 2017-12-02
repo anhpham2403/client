@@ -1,5 +1,6 @@
 package com.anh.movie.screen.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.anh.movie.data.source.MovieServiceClient;
 import com.anh.movie.data.source.RemoteDataSource;
 import com.anh.movie.screen.BaseViewModel;
 import com.anh.movie.screen.home.listmovie.MovieAdapter;
+import com.anh.movie.screen.moviedetail.DetailActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -71,6 +73,7 @@ public class SearchViewModel extends BaseViewModel implements MovieAdapter.OnIte
                     }
                 }));
     }
+
     public void getListMovieSearch() {
         getDisposable().add(mDataSource.getMoviesBySearch(mPage, mSearch)
                 .subscribeOn(Schedulers.io())
@@ -94,9 +97,11 @@ public class SearchViewModel extends BaseViewModel implements MovieAdapter.OnIte
                     }
                 }));
     }
-    public void setListMovie(List<Movie> movie){
-        setAdapter(new MovieAdapter(movie,this));
+
+    public void setListMovie(List<Movie> movie) {
+        setAdapter(new MovieAdapter(movie, this));
     }
+
     public SearchViewModel(Context context) {
         mContext = context;
         mAdapter = new MovieAdapter(new ArrayList<Movie>(), this);
@@ -107,7 +112,7 @@ public class SearchViewModel extends BaseViewModel implements MovieAdapter.OnIte
 
     @Override
     public void onItemClick(Movie movie) {
-
+        mContext.startActivity(DetailActivity.getIntent(movie, mContext));
     }
 
     @Bindable
@@ -169,5 +174,9 @@ public class SearchViewModel extends BaseViewModel implements MovieAdapter.OnIte
     public void setOnQueryTextListener(SearchView.OnQueryTextListener onQueryTextListener) {
         mOnQueryTextListener = onQueryTextListener;
         notifyPropertyChanged(BR.onQueryTextListener);
+    }
+
+    public void back() {
+        ((Activity) mContext).finish();
     }
 }

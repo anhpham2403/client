@@ -5,6 +5,7 @@ import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.anh.movie.screen.home.listgenre.ListGenreFragment;
 import com.anh.movie.screen.home.listmovie.ListMovieFragment;
 import java.lang.annotation.Retention;
 
@@ -14,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * Created by anh on 11/26/2017.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private static final int COUNT_FRAGMENT = 4;
+    private static final int COUNT_FRAGMENT = 5;
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -32,7 +33,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case StateMode.TOP_RATE:
                 return ListMovieFragment.newInstance(StateMode.TOP_RATE);
             case StateMode.GENRES:
-                return ListMovieFragment.newInstance(StateMode.GENRES);
+                return ListGenreFragment.newInstance();
             default:
                 return null;
         }
