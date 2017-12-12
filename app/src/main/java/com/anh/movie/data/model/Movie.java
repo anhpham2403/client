@@ -4,12 +4,16 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.anh.movie.BR;
 import com.anh.movie.utils.Constant;
+import com.cunoraz.tagview.Tag;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 /**
  * Created by anh on 11/30/2017.
@@ -49,14 +53,27 @@ public class Movie extends BaseObservable implements Parcelable {
     @Expose
     private Date mReleaseDate;
     private String mTrailerUrl;
+    @SerializedName("genres")
+    private List<Genre> mGenres;
+    @SerializedName("status")
+    private String mStatus;
+    @SerializedName("cast")
+    private List<Character> mCharacters;
+    @SerializedName("imdbRating")
+    private float mImdbRating;
+    private float mTmdbRating;
+    @SerializedName("imdb_id")
+    private String mIdImdb;
 
     protected Movie(Parcel in) {
+        mId = in.readInt();
         mTitle = in.readString();
         mVoteAverage = in.readFloat();
         mPosterUrl = in.readString();
         mOverview = in.readString();
         mTrailerUrl = in.readString();
         mReleaseDate = new Date(in.readLong());
+        mIdImdb = in.readString();
     }
 
     @Bindable
@@ -109,12 +126,6 @@ public class Movie extends BaseObservable implements Parcelable {
         mPosterUrl = posterUrl;
     }
 
-    @Bindable
-    public String getDate() {
-        SimpleDateFormat dt = new SimpleDateFormat(Constant.DATE_FORMAT_YYYYMMDD, Locale.US);
-        return dt.format(mReleaseDate);
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -137,6 +148,7 @@ public class Movie extends BaseObservable implements Parcelable {
         parcel.writeString(mOverview);
         parcel.writeString(mTrailerUrl);
         parcel.writeLong(mReleaseDate.getTime());
+        parcel.writeString(mIdImdb);
     }
 
     public String getOriginalTitle() {
@@ -145,5 +157,101 @@ public class Movie extends BaseObservable implements Parcelable {
 
     public void setOriginalTitle(String originalTitle) {
         mOriginalTitle = originalTitle;
+    }
+
+    public List<Genre> getGenres() {
+        return mGenres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        mGenres = genres;
+    }
+
+    @Bindable
+    public String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT_YYYYMMDD);
+        return mReleaseDate != null ? dateFormat.format(mReleaseDate) : "undefined";
+    }
+
+    @Bindable
+    public String getYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mReleaseDate);
+        return mReleaseDate != null ? String.valueOf(calendar.get(Calendar.YEAR)) : "undefined";
+    }
+
+    @Bindable
+    public String getListGenre() {
+        String s = "";
+        if (mGenres == null) {
+            return s;
+        }
+        for (int i = 0; i < mGenres.size(); i++) {
+            s += mGenres.get(i).getName();
+            if (i + 1 < mGenres.size()) {
+                s += ", ";
+            }
+        }
+        return s;
+    }
+
+    @Bindable
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String status) {
+        mStatus = status;
+        notifyPropertyChanged(BR.status);
+    }
+
+    @Bindable
+    public ArrayList<Tag> getTagName() {
+        ArrayList<Tag> s = new ArrayList<>();
+        if (mGenres == null) {
+            return s;
+        }
+        for (Genre genre : mGenres) {
+            s.add(new Tag(genre.getName()));
+        }
+        return s;
+    }
+
+    public List<Character> getCharacters() {
+        return mCharacters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        mCharacters = characters;
+    }
+
+    @Bindable
+    public float getImdbRating() {
+        return mImdbRating;
+    }
+
+    public void setImdbRating(float imdbRating) {
+        mImdbRating = imdbRating;
+        notifyPropertyChanged(BR.imdbRating);
+    }
+
+    @Bindable
+    public float getTmdbRating() {
+        return mTmdbRating;
+    }
+
+    public void setTmdbRating(float tmdbRating) {
+        mTmdbRating = tmdbRating;
+        notifyPropertyChanged(BR.tmdbRating);
+    }
+
+    @Bindable
+    public String getIdImdb() {
+        return mIdImdb;
+    }
+
+    public void setIdImdb(String idImdb) {
+        mIdImdb = idImdb;
+        notifyPropertyChanged(BR.idImdb);
     }
 }

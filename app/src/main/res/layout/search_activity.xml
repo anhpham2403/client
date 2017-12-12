@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -9,7 +11,7 @@
             name="viewModel"
             type="com.anh.movie.screen.search.SearchViewModel"
             />
-
+        <import type="com.anh.movie.utils.LayoutManagers"/>
     </data>
 
     <LinearLayout
@@ -21,20 +23,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <SearchView
+            <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:closeIcon="@drawable/ic_clear_white_24dp"
-                android:iconifiedByDefault="false"
-                android:queryHint="@string/search"
-                android:searchIcon="@drawable/ic_search_white_24dp"
-                android:theme="@android:style/Theme.Holo"
-                />
+                android:layout_height="@dimen/dp_48"
+                android:background="@color/color_primary"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:padding="@dimen/dp_8"
+                    android:onClick="@{()->viewModel.back()}"
+                    />
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:closeIcon="@drawable/ic_clear_white_24dp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/search"
+                    android:searchIcon="@drawable/ic_search_white_24dp"
+                    android:theme="@android:style/Theme.Holo"
+                    app:setQueryTextListener="@{viewModel.onQueryTextListener}"
+                    />
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            app:layoutManager="@{LayoutManagers.grid(2)}"
+            app:recyclerAdapter="@{viewModel.adapter}"
+            app:scrollListenner="@{viewModel.scrollListener}"
             />
     </LinearLayout>
 </layout>

@@ -11,6 +11,7 @@ import com.anh.movie.data.source.MovieServiceClient;
 import com.anh.movie.data.source.RemoteDataSource;
 import com.anh.movie.screen.BaseViewModel;
 import com.anh.movie.screen.home.ViewPagerAdapter;
+import com.anh.movie.screen.moviedetail.DetailActivity;
 import com.anh.movie.utils.Constant;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -112,7 +113,7 @@ public class ListMovieViewModel extends BaseViewModel implements MovieAdapter.On
 
     @Override
     public void onItemClick(Movie movie) {
-
+        mContext.startActivity(DetailActivity.getIntent(movie, mContext));
     }
 
     @Bindable

@@ -21,4 +21,16 @@
     <dimen name="dp_180">180dp</dimen>
     <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_48">48dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_2o">20dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
+    <dimen name="sp_17">17sp</dimen>
+    <dimen name="dp_40">40dp</dimen>
 </resources>
