@@ -189,6 +189,36 @@ public class RemoteDataSource {
     }
 
     public Observable<Movie> movieImdb(String id, String apiKey) {
-        return mMovieApi.movieImdb(id,apiKey);
+        return mMovieApi.movieImdb(id, apiKey);
+    }
+
+    public Observable<List<Movie>> getFavorites() {
+        return mMovieApi.getFavorites().map(new Function<MovieResponse, List<Movie>>() {
+
+            @Override
+            public List<Movie> apply(MovieResponse movieResponse) throws Exception {
+                return movieResponse.getMovies();
+            }
+        });
+    }
+
+    public Observable<String> addFavorite(@Path("id") int id) {
+        return mMovieApi.addFavorite(id).map(new Function<ResponseBody, String>() {
+            @Override
+            public String apply(ResponseBody responseBody) throws Exception {
+                JSONObject jsonObject = new JSONObject(responseBody.string());
+                return jsonObject.getString("message");
+            }
+        });
+    }
+
+    public Observable<String> delFavorite(@Path("id") int id) {
+        return mMovieApi.delFavorite(id).map(new Function<ResponseBody, String>() {
+            @Override
+            public String apply(ResponseBody responseBody) throws Exception {
+                JSONObject jsonObject = new JSONObject(responseBody.string());
+                return jsonObject.getString("message");
+            }
+        });
     }
 }

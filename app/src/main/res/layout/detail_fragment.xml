@@ -231,6 +231,7 @@
                 app:textPaddingLeft="8dp"
                 app:textPaddingRight="8dp"
                 app:textPaddingTop="5dp"
+                app:tagListener="@{viewModel.listener}"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -248,6 +249,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@{viewModel.movie.overview}"
                 />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

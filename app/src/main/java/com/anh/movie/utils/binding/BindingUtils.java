@@ -180,4 +180,12 @@ public final class BindingUtils {
                 .error(R.drawable.no_image)
                 .into(view);
     }
+    @BindingAdapter({ "bind:tagListener" })
+    public static void setListener(TagView view , TagView.OnTagClickListener listener){
+        view.setOnTagClickListener(listener);
+    }
+    @BindingAdapter({ "bind:pagerListener" })
+    public static void setViewPagerAdapter(ViewPager viewPager, ViewPager.OnPageChangeListener listener){
+        viewPager.setOnPageChangeListener(listener);
+    }
 }

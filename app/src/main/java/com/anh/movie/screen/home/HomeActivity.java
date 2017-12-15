@@ -19,6 +19,7 @@ import com.anh.movie.data.source.SharePreferenceApi;
 import com.anh.movie.data.source.SharePreferenceImp;
 import com.anh.movie.databinding.HomeActivityBinding;
 import com.anh.movie.screen.BaseActivity;
+import com.anh.movie.screen.favorite.FavoriteActivity;
 import com.anh.movie.screen.login.LoginActivity;
 import com.anh.movie.screen.register.RegisterActivity;
 import com.anh.movie.screen.register.TypeMode;
@@ -100,6 +101,8 @@ public class HomeActivity extends BaseActivity
         update.setVisible(true);
         MenuItem logout = mMenu.findItem(R.id.log_out);
         logout.setVisible(true);
+        MenuItem favorite = mMenu.findItem(R.id.favorite);
+        favorite.setVisible(true);
     }
 
     @Override
@@ -150,8 +153,11 @@ public class HomeActivity extends BaseActivity
             case R.id.update:
                 startActivity(RegisterActivity.getIntent(this, TypeMode.UPDATE));
                 break;
+            case R.id.favorite:
+                Intent intent2 = new Intent(this, FavoriteActivity.class);
+                startActivity(intent2);
+                break;
             case R.id.log_out:
-                //TODO
                 mPreference.remove(USER_PREFS);
                 Intent intent1 = new Intent(this, HomeActivity.class);
                 startActivity(intent1);

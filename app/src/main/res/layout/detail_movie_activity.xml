@@ -147,9 +147,9 @@
                 app:tabIndicatorColor="@color/color_accent"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/color_white"
+                app:tabTextAppearance="@style/TabLayoutStyle"
                 app:tabTextColor="@color/color_white"
                 app:viewPager="@{viewpager}"
-                app:tabTextAppearance="@style/TabLayoutStyle"
                 />
         </android.support.design.widget.AppBarLayout>
 
@@ -160,6 +160,19 @@
             android:background="@android:color/white"
             app:adapter="@{viewModel.pager}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:pagerListener="@{viewModel.changeListener}"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            android:onClick="@{()->viewModel.addFavorite()}"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            android:visibility="@{viewModel.hideButton ? View.GONE : View.VISIBLE}"
+            app:backgroundTint="@color/color_red_900"
             />
     </android.support.design.widget.CoordinatorLayout>
 </layout>
