@@ -14,6 +14,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import org.json.JSONObject;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -105,4 +106,13 @@ public interface MovieApi {
 
     @GET("?")
     Observable<Movie> movieImdb(@Query("i") String id, @Query("apiKey") String apiKey);
+
+    @GET("favorite")
+    Observable<MovieResponse> getFavorites();
+
+    @POST("favorite/{id}")
+    Observable<ResponseBody> addFavorite(@Path("id") int id);
+
+    @DELETE("favorite/{id}")
+    Observable<ResponseBody> delFavorite(@Path("id") int id);
 }

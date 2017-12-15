@@ -1,16 +1,28 @@
 package com.anh.movie.screen.moviedetail.detail;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.Bindable;
+import android.os.Build;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import com.anh.movie.BR;
 import com.anh.movie.BuildConfig;
 import com.anh.movie.data.model.Movie;
+import com.anh.movie.data.model.User;
 import com.anh.movie.data.source.MovieServiceClient;
 import com.anh.movie.data.source.RemoteDataSource;
+import com.anh.movie.data.source.SharePreferenceApi;
+import com.anh.movie.data.source.SharePreferenceImp;
 import com.anh.movie.screen.BaseViewModel;
+import com.anh.movie.screen.login.LoginActivity;
+import com.anh.movie.screen.moviesofgenre.MoviesActivity;
 import com.anh.movie.utils.Constant;
+import com.cunoraz.tagview.Tag;
+import com.cunoraz.tagview.TagView;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -19,6 +31,8 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.anh.movie.data.source.SharePreferenceKey.USER_PREFS;
 
 /**
  * Created by anh on 12/5/2017.
@@ -31,6 +45,13 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
     private RemoteDataSource mDataSource1;
     private boolean mIsLoading;
     private int mScore;
+    private TagView.OnTagClickListener mListener = new TagView.OnTagClickListener() {
+        @Override
+        public void onTagClick(Tag tag, int i) {
+            mContext.startActivity(
+                    MoviesActivity.getIntentMoviesOfGenre(mContext, mMovie.getGenres().get(i)));
+        }
+    };
 
     public DetailViewModel(Context context, Movie movie) {
         mContext = context;
@@ -97,26 +118,55 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
     }
 
     public void rateMovie(int movie, int score) {
-        getDisposable().add(mDataSource.rateMovie(movie, score)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableObserver<String>() {
+        SharePreferenceApi mSharedPreferences = new SharePreferenceImp(mContext);
+        Gson gson = new Gson();
+        String json = mSharedPreferences.get(USER_PREFS, String.class);
+        User mUser = gson.fromJson(json, User.class);
+        if (mUser == null) {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(mContext,
+                        android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(mContext);
+            }
+            builder.setTitle("Login")
+                    .setMessage("Login to rate this movie")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mMovie.setImdbRating(0);
+                        }
+                    })
+                    .show();
+        } else {
+            getDisposable().add(mDataSource.rateMovie(movie, score)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribeWith(new DisposableObserver<String>() {
 
-                    @Override
-                    public void onNext(String value) {
-                        Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onNext(String value) {
+                            Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                }));
+                        }
+                    }));
+        }
     }
 
     public void getMovieRateImdb(String id, String apiKey) {
@@ -203,4 +253,14 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
         mScore = score;
         notifyPropertyChanged(BR.score);
     }
+    @Bindable
+    public TagView.OnTagClickListener getListener() {
+        return mListener;
+    }
+
+    public void setListener(TagView.OnTagClickListener listener) {
+        mListener = listener;
+        notifyPropertyChanged(BR.listener);
+    }
+
 }
