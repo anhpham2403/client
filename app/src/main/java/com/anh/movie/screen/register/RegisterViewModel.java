@@ -57,6 +57,7 @@ public class RegisterViewModel extends BaseViewModel {
     private String mOldPassword;
     private String mOldPasswordError;
     private Activity mActivity;
+    private String mImageUrl;
     private MultipartBody.Part imagePath;
     public final static int READ_EXTERNAL_REQUEST = 2;
     private int mType;
@@ -216,7 +217,7 @@ public class RegisterViewModel extends BaseViewModel {
             setPasswordError(mContext.getString(R.string.msg_error_user_name));
         }
         if (!mEmail.matches(EMAIL_REGEX)) {
-            setEmailError(mContext.getString(R.string.msg_error_user_name));
+            setEmailError(mContext.getString(R.string.msg_error_email_invalid));
             return false;
         }
         if (!isEdit()) {
@@ -224,7 +225,7 @@ public class RegisterViewModel extends BaseViewModel {
         }
         if (TextUtils.isEmpty(mOldPassword)) {
             isValid = false;
-            setPasswordError(mContext.getString(R.string.msg_error_user_name));
+            setPasswordError(mContext.getString(R.string.msg_error_old_password));
         }
         return isValid;
     }
@@ -298,6 +299,7 @@ public class RegisterViewModel extends BaseViewModel {
         setPassword(user.getPassword());
         setEmail(user.getEmail());
         setUsername(user.getUsername());
+        setImageUrl(user.getAvatarUrl());
     }
 
     @Bindable
@@ -345,6 +347,7 @@ public class RegisterViewModel extends BaseViewModel {
                         MediaType.parse(mActivity.getContentResolver().getType(selectedImage)),
                         file);
                 imagePath = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+                setImageUrl(null);
             }
         }
     }
@@ -393,5 +396,15 @@ public class RegisterViewModel extends BaseViewModel {
     public void setButtonName(String buttonName) {
         mButtonName = buttonName;
         notifyPropertyChanged(BR.buttonName);
+    }
+
+    @Bindable
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        mImageUrl = imageUrl;
+        notifyPropertyChanged(BR.imageUrl);
     }
 }

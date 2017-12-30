@@ -11,7 +11,6 @@ import java.util.List;
 
 public class BannerViewPagerAdapter extends FragmentPagerAdapter {
     private List<String> mPaths;
-
     public BannerViewPagerAdapter(FragmentManager fm, List<String> paths) {
         super(fm);
         mPaths = paths;

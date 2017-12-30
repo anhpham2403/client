@@ -31,7 +31,7 @@ public class BannerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         String path = getArguments().getString(Constant.PATH_BUNDLE);
-        mViewModel = new BannerFragmentViewModel(path);
+        mViewModel = new BannerFragmentViewModel(path,getActivity().getSupportFragmentManager());
         FragmentBannerBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_banner, container, false);
         binding.setViewModel(mViewModel);

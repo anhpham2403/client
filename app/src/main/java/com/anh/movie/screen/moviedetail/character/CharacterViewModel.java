@@ -2,6 +2,7 @@ package com.anh.movie.screen.moviedetail.character;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.anh.movie.BR;
 import com.anh.movie.data.model.Actor;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  */
 
 public class CharacterViewModel extends BaseViewModel
-        implements CharacterAdapter.OnItemClickListener {
+        implements CharacterAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Movie mMovie;
     private Context mContext;
     private CharacterAdapter mAdapter;
@@ -94,5 +95,11 @@ public class CharacterViewModel extends BaseViewModel
     public void setLoading(boolean loading) {
         mIsLoading = loading;
         notifyPropertyChanged(BR.loading);
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter = new CharacterAdapter(new ArrayList<Character>(), this);
+        getData();
     }
 }

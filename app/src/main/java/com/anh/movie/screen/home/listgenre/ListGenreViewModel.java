@@ -2,6 +2,7 @@ package com.anh.movie.screen.home.listgenre;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.anh.movie.BR;
 import com.anh.movie.data.model.Genre;
@@ -19,7 +20,8 @@ import java.util.List;
  * Created by anh on 12/3/2017.
  */
 
-public class ListGenreViewModel extends BaseViewModel implements GenreAdapter.OnItemClickListener {
+public class ListGenreViewModel extends BaseViewModel
+        implements GenreAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Context mContext;
     private GenreAdapter mAdapter;
     private boolean mIsLoading;
@@ -79,5 +81,11 @@ public class ListGenreViewModel extends BaseViewModel implements GenreAdapter.On
 
                     }
                 }));
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter = new GenreAdapter(new ArrayList<Genre>(), this);
+        getData();
     }
 }

@@ -2,6 +2,7 @@ package com.anh.movie.screen.moviedetail.crew;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.anh.movie.BR;
 import com.anh.movie.data.model.Crew;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by anh on 12/5/2017.
  */
 
-public class CrewViewModel extends BaseViewModel implements CrewAdapter.OnItemClickListener {
+public class CrewViewModel extends BaseViewModel implements CrewAdapter.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener {
     private Movie mMovie;
     private Context mContext;
     private CrewAdapter mAdapter;
@@ -82,5 +83,11 @@ public class CrewViewModel extends BaseViewModel implements CrewAdapter.OnItemCl
     @Override
     public void onItemClick(Crew crew) {
         mContext.startActivity(CrewDetailActivity.getIntent(mContext, crew));
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter = new CrewAdapter(new ArrayList<Crew>(), this);
+        getData();
     }
 }

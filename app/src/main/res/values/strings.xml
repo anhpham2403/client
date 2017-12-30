@@ -12,6 +12,8 @@
     <string name="title_login">Login</string>
     <string name="title_sign_up_now">Not a member ? sign up now.</string>
     <string name="msg_error_user_name">Text Must not Empty!</string>
+    <string name="msg_error_email_invalid">email is invalid!</string>
+    <string name="msg_error_old_password">old password not correct!</string>
     <string name="remember_me">Remember Me</string>
     <string name="title_name">Name</string>
     <string name="title_email">Email</string>

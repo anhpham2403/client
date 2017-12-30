@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.os.Build;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import com.anh.movie.BR;
@@ -19,15 +20,15 @@ import com.anh.movie.data.source.SharePreferenceImp;
 import com.anh.movie.screen.BaseViewModel;
 import com.anh.movie.screen.login.LoginActivity;
 import com.anh.movie.screen.moviesofgenre.MoviesActivity;
-import com.anh.movie.utils.Constant;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +39,8 @@ import static com.anh.movie.data.source.SharePreferenceKey.USER_PREFS;
  * Created by anh on 12/5/2017.
  */
 
-public class DetailViewModel extends BaseViewModel implements RatingBar.OnRatingBarChangeListener {
+public class DetailViewModel extends BaseViewModel
+        implements RatingBar.OnRatingBarChangeListener, SwipeRefreshLayout.OnRefreshListener {
     private Context mContext;
     private Movie mMovie;
     private RemoteDataSource mDataSource;
@@ -52,7 +54,6 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
                     MoviesActivity.getIntentMoviesOfGenre(mContext, mMovie.getGenres().get(i)));
         }
     };
-
     public DetailViewModel(Context context, Movie movie) {
         mContext = context;
         mMovie = movie;
@@ -60,8 +61,6 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
         getDetail();
         mIsLoading = true;
         getScore(movie.getId());
-        getMovieRateImdb(movie.getIdImdb(), BuildConfig.API_KEY1);
-        getMovieRateTmdb(movie.getId(), BuildConfig.API_KEY);
     }
 
     public void getDetail() {
@@ -72,6 +71,8 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
                     @Override
                     public void onNext(Movie value) {
                         setMovie(value);
+                        getMovieRateImdb(value.getIdImdb(), BuildConfig.API_KEY1);
+                        getMovieRateTmdb(value.getId(), BuildConfig.API_KEY);
                     }
 
                     @Override
@@ -253,6 +254,7 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
         mScore = score;
         notifyPropertyChanged(BR.score);
     }
+
     @Bindable
     public TagView.OnTagClickListener getListener() {
         return mListener;
@@ -263,4 +265,11 @@ public class DetailViewModel extends BaseViewModel implements RatingBar.OnRating
         notifyPropertyChanged(BR.listener);
     }
 
+    @Override
+    public void onRefresh() {
+        getDetail();
+        getScore(mMovie.getId());
+        getMovieRateImdb(mMovie.getIdImdb(), BuildConfig.API_KEY1);
+        getMovieRateTmdb(mMovie.getId(), BuildConfig.API_KEY);
+    }
 }

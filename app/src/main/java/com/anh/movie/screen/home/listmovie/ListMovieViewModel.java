@@ -2,6 +2,7 @@ package com.anh.movie.screen.home.listmovie;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -24,7 +25,8 @@ import java.util.List;
  * Created by anh on 11/26/2017.
  */
 
-public class ListMovieViewModel extends BaseViewModel implements MovieAdapter.OnItemClickListener {
+public class ListMovieViewModel extends BaseViewModel
+        implements MovieAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private MovieAdapter mAdapter;
     private Context mContext;
     private int mCategory;
@@ -144,5 +146,12 @@ public class ListMovieViewModel extends BaseViewModel implements MovieAdapter.On
     @Bindable
     public RecyclerView.OnScrollListener getScrollListener() {
         return mScrollListener;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPage = 1;
+        mAdapter = new MovieAdapter(new ArrayList<Movie>(), this);
+        getListMovie();
     }
 }

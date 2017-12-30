@@ -2,9 +2,9 @@ package com.anh.movie.screen.moviedetail.review;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.anh.movie.BR;
-import com.anh.movie.data.model.Crew;
 import com.anh.movie.data.model.Movie;
 import com.anh.movie.data.model.Review;
 import com.anh.movie.data.model.User;
@@ -28,7 +28,8 @@ import static com.anh.movie.data.source.SharePreferenceKey.USER_PREFS;
  * Created by anh on 12/5/2017.
  */
 
-public class ReviewViewModel extends BaseViewModel implements ReviewAdapter.OnItemClickListener {
+public class ReviewViewModel extends BaseViewModel
+        implements ReviewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Movie mMovie;
     private Context mContext;
     private ReviewAdapter mAdapter;
@@ -150,5 +151,11 @@ public class ReviewViewModel extends BaseViewModel implements ReviewAdapter.OnIt
             return;
         }
         reviewMovie(content, Calendar.getInstance().getTime());
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter = new ReviewAdapter(new ArrayList<Review>(), this);
+        getData();
     }
 }

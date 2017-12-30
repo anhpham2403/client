@@ -9,6 +9,7 @@ import com.anh.movie.utils.Constant;
 import com.cunoraz.tagview.Tag;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -253,5 +254,11 @@ public class Movie extends BaseObservable implements Parcelable {
     public void setIdImdb(String idImdb) {
         mIdImdb = idImdb;
         notifyPropertyChanged(BR.idImdb);
+    }
+
+    @Bindable
+    public String getFloatNumber() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(mVoteAverage);
     }
 }

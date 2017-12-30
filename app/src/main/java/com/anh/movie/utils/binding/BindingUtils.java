@@ -17,6 +17,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.SearchView;
+import android.widget.Toast;
+import com.anh.movie.App;
+import com.anh.movie.BuildConfig;
 import com.anh.movie.R;
 import com.anh.movie.screen.home.ViewPagerAdapter;
 import com.anh.movie.screen.moviedetail.DetailViewPager;
@@ -24,6 +27,9 @@ import com.anh.movie.utils.Constant;
 import com.anh.movie.utils.LayoutManagers;
 import com.cunoraz.tagview.Tag;
 import com.cunoraz.tagview.TagView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -173,19 +179,24 @@ public final class BindingUtils {
 
     @BindingAdapter({ "bind:imageUrl1" })
     public static void loadImage1(ImageView view, String imagePath) {
-        String imageUrl = Constant.BASE_URL_IMAGE1 + imagePath;
+        if (imagePath == null) {
+            return;
+        }
         Picasso.with(view.getContext())
-                .load(imageUrl)
+                .load(imagePath)
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image)
                 .into(view);
     }
+
     @BindingAdapter({ "bind:tagListener" })
-    public static void setListener(TagView view , TagView.OnTagClickListener listener){
+    public static void setListener(TagView view, TagView.OnTagClickListener listener) {
         view.setOnTagClickListener(listener);
     }
+
     @BindingAdapter({ "bind:pagerListener" })
-    public static void setViewPagerAdapter(ViewPager viewPager, ViewPager.OnPageChangeListener listener){
+    public static void setViewPagerAdapter(ViewPager viewPager,
+            ViewPager.OnPageChangeListener listener) {
         viewPager.setOnPageChangeListener(listener);
     }
 }
